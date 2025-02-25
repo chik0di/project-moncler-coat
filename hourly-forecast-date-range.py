@@ -2,20 +2,19 @@
 
 # Adjust LOCATION to the case study
 
-# Limit your date to a range of 14 days
+# Limit your date to a range of 10 days
 
 import requests
-import datetime as dt 
-from meteostat import Hourly, Daily
+import datetime as dt
 from datetime import datetime
 from datetime import datetime, timedelta
 import json
 import csv
 
 API_KEY = open('weather_api_key', 'r').read().strip()
-LOCATION = "Tokyo"
-START_DATE = datetime(2025, 3, 1)
-END_DATE = datetime(2025, 12, 31)
+LOCATION = "Buriram"
+START_DATE = datetime(2025, 2, 28)
+END_DATE = datetime(2025, 3, 2)
 
 all_forecasts = []
 
@@ -31,7 +30,7 @@ while current_date <= END_DATE:
         print(f"Error fetching data for {date_str}: {data['error']['message']}")
         break 
 
-    forecast_day = data.get("forecast", {}).get("forecastday", [])[0]  # Extract forecast for the day
+    forecast_day = data.get("forecast", {}).get("forecastday", [])[0] 
 
     if forecast_day:
         for hour_data in forecast_day.get("hour", []): 
@@ -86,7 +85,7 @@ while current_date <= END_DATE:
 
     current_date += timedelta(days=1)
 
-csv_filename = "tokyo-mar-dec.csv"
+csv_filename = "Thailand-Grand-Prix(motoGP)-2025-hourly-weather.csv"
 with open(csv_filename, mode="w", newline="") as file:
     writer = csv.DictWriter(file, fieldnames=all_forecasts[0].keys())
     writer.writeheader()
